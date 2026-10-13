@@ -1367,3 +1367,75 @@ h2 {
     justify-content: flex-start;
   }
 }
+
+.demo-note {
+  margin: 0 0 14px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: #fff7e6;
+  border: 1px solid #f3d29a;
+  color: #7a5410;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.report-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 0 14px;
+  padding: 10px 14px;
+  border: 1px solid #e3e6dd;
+  border-radius: 10px;
+  background: #fbfcf8;
+  font-size: 13px;
+}
+.dep-status { display: flex; align-items: center; gap: 8px; color: #44513f; }
+.dep-status b { color: #b42318; }
+.export-buttons { display: flex; align-items: center; gap: 6px; }
+.export-buttons > span { color: #7a8475; margin-right: 2px; }
+.export-buttons button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font: inherit;
+  font-size: 12.5px;
+  padding: 4px 10px;
+  border-radius: 7px;
+  border: 1px solid #d5dacd;
+  background: #fff;
+  cursor: pointer;
+}
+.export-buttons button:hover { border-color: #1f6f4a; color: #1f6f4a; }
+.suppressed-panel {
+  margin: 0 0 14px;
+  border: 1px dashed #d5dacd;
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-size: 13px;
+  background: #fff;
+}
+.suppressed-panel summary { cursor: pointer; color: #5b6656; display: flex; align-items: center; gap: 6px; }
+.suppressed-panel ul { list-style: none; margin: 10px 0 2px; padding: 0; display: grid; gap: 6px; }
+.suppressed-panel li { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.suppressed-panel .muted, .dep-fix .muted { color: #7a8475; }
+.suppressed-panel .reason { color: #1f6f4a; background: #eef6f0; border-radius: 999px; padding: 0 8px; font-size: 12px; }
+.toggle { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #44513f; white-space: nowrap; }
+.test-tag {
+  display: inline-block;
+  font-size: 12px;
+  color: #8a5a00;
+  background: #fff4dc;
+  border: 1px solid #f3d29a;
+  border-radius: 999px;
+  padding: 0 8px;
+  margin: 2px 0;
+}
+.dep-fix { display: grid; gap: 4px; font-size: 13px; margin: 4px 0; }
+.dep-fix code { background: #f2f4ee; border-radius: 5px; padding: 1px 6px; }
+.dep-fix code.fixed { background: #e3f3e8; color: #1f6f4a; font-weight: 600; }
+.dep-cmd { display: flex; align-items: center; gap: 6px; }
+.dep-cmd button { border: 1px solid #d5dacd; background: #fff; border-radius: 6px; padding: 2px 6px; cursor: pointer; }
+.dep-fix a { font-size: 12.5px; }

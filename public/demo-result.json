@@ -1,0 +1,3319 @@
+{
+  "target": "https://github.com/lzwhehe/repo-vuln-scanner",
+  "mode": "github",
+  "scannedAt": "2026-10-13T18:15:26.243Z",
+  "durationMs": 3532,
+  "summary": {
+    "total": 37,
+    "critical": 3,
+    "high": 14,
+    "medium": 14,
+    "low": 6,
+    "current": 37,
+    "history": 0,
+    "github": 0,
+    "stages": {
+      "entropy-context": 1,
+      "token-pattern": 2,
+      "vulnerability-pattern": 1,
+      "dependency-osv": 33
+    },
+    "rules": {
+      "generic-high-entropy-secret": 1,
+      "database-url-with-password": 1,
+      "coff0xc-datadog-api": 1,
+      "cwe-command-injection": 1,
+      "osv:GHSA-w5vr-8v7q-w6rv": 1,
+      "osv:GHSA-v422-hmwv-36x6": 1,
+      "osv:GHSA-73wf-gq98-2v4g": 1,
+      "osv:GHSA-c83g-rgw3-j3cx": 1,
+      "osv:GHSA-g7r4-m6w7-qqqr": 1,
+      "osv:GHSA-28wg-ghj8-5hjv": 1,
+      "osv:GHSA-2v37-7h3g-55p8": 1,
+      "osv:GHSA-fxqj-rqcc-2cmp": 1,
+      "osv:GHSA-r28c-9q8g-f849": 1,
+      "osv:GHSA-jqcg-44mw-7w3h": 1,
+      "osv:GHSA-4mjr-xmp4-gh2g": 1,
+      "osv:GHSA-x5fp-wj9c-mxmx": 1,
+      "osv:GHSA-395f-4hp3-45gv": 1,
+      "osv:GHSA-w7jw-789q-3m8p": 1,
+      "osv:GHSA-68fv-2mgg-jv7q": 1,
+      "osv:GHSA-23hp-3jrh-7fpw": 1,
+      "osv:GHSA-8x88-c5mf-7j5w": 1,
+      "osv:GHSA-gvwx-54wh-qm9j": 1,
+      "osv:GHSA-r292-9mhp-454m": 1,
+      "osv:GHSA-vmf3-w455-68vh": 1,
+      "osv:GHSA-w8wr-v893-vjvp": 1,
+      "osv:GHSA-35p6-xmwp-9g52": 1,
+      "osv:GHSA-3wwx-pv8p-q78v": 1,
+      "osv:GHSA-8xcm-r25x-g524": 1,
+      "osv:GHSA-g8m3-5g58-fq7m": 1,
+      "osv:GHSA-m8rv-5g2x-5cg5": 1,
+      "osv:GHSA-p88m-4jfj-68fv": 1,
+      "osv:GHSA-r53p-7pc4-xj5r": 1,
+      "osv:GHSA-rfgv-xxqx-mfg5": 1,
+      "osv:GHSA-v3r7-h72x-cjcm": 1,
+      "osv:GHSA-vxpw-j846-p89q": 1,
+      "osv:GHSA-fx2h-pf6j-xcff": 1,
+      "osv:GHSA-v6wh-96g9-6wx3": 1
+    },
+    "dependencyScan": {
+      "source": "OSV.dev",
+      "ok": true,
+      "lockfiles": 1,
+      "packages": 216,
+      "vulnerablePackages": 13
+    },
+    "suppressed": 4,
+    "inTestFiles": 4
+  },
+  "pipeline": [
+    {
+      "id": "risk-file-name",
+      "label": "风险文件名",
+      "description": "先用文件名和路径找 .env、私钥、凭证、云配置等高风险位置。",
+      "count": 0,
+      "status": "completed"
+    },
+    {
+      "id": "token-pattern",
+      "label": "Token pattern",
+      "description": "再用精确正则匹配 GitHub、OpenAI、AWS、Slack、Stripe 等常见 token。",
+      "count": 2,
+      "status": "completed"
+    },
+    {
+      "id": "entropy-context",
+      "label": "Entropy/context",
+      "description": "再结合变量名、上下文和字符串熵判断疑似 secret。",
+      "count": 1,
+      "status": "completed"
+    },
+    {
+      "id": "vulnerability-pattern",
+      "label": "漏洞/CVE 规则",
+      "description": "根据依赖版本、危险 API、配置和用户输入流匹配可能 CVE/CWE 漏洞。",
+      "count": 1,
+      "status": "completed"
+    },
+    {
+      "id": "validity-check",
+      "label": "Validity check",
+      "description": "可插拔验证阶段，默认关闭，避免滥用第三方 API 验证他人 token。",
+      "count": 0,
+      "status": "disabled"
+    }
+  ],
+  "aggregations": {
+    "byRepository": [
+      {
+        "key": "lzwhehe/repo-vuln-scanner",
+        "label": "lzwhehe/repo-vuln-scanner",
+        "total": 37,
+        "critical": 3,
+        "high": 14,
+        "medium": 14,
+        "low": 6
+      }
+    ],
+    "byFile": [
+      {
+        "key": "package-lock.json",
+        "label": "package-lock.json",
+        "total": 33,
+        "critical": 3,
+        "high": 12,
+        "medium": 13,
+        "low": 5
+      },
+      {
+        "key": "tests\\scanner.test.js",
+        "label": "tests\\scanner.test.js",
+        "total": 4,
+        "critical": 0,
+        "high": 2,
+        "medium": 1,
+        "low": 1
+      }
+    ],
+    "byRule": [
+      {
+        "key": "osv:GHSA-jqcg-44mw-7w3h",
+        "label": "proxy-addr@2.0.7 存在已知漏洞 CVE-2026-90711",
+        "total": 1,
+        "critical": 1,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "osv:GHSA-w7jw-789q-3m8p",
+        "label": "shell-quote@1.8.3 存在已知漏洞 CVE-2026-9277",
+        "total": 1,
+        "critical": 1,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "osv:GHSA-23hp-3jrh-7fpw",
+        "label": "tar@7.5.15 存在已知漏洞 CVE-2026-59873",
+        "total": 1,
+        "critical": 1,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "database-url-with-password",
+        "label": "Database URL with password",
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "coff0xc-datadog-api",
+        "label": "Datadog API key",
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "osv:GHSA-73wf-gq98-2v4g",
+        "label": "browserslist@4.28.2 存在已知漏洞 CVE-2026-73088",
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "osv:GHSA-c83g-rgw3-j3cx",
+        "label": "browserslist@4.28.2 存在已知漏洞 CVE-2026-73089",
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "osv:GHSA-28wg-ghj8-5hjv",
+        "label": "nanoid@3.3.12 存在已知漏洞 CVE-2026-67214",
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "osv:GHSA-2v37-7h3g-55p8",
+        "label": "nanoid@3.3.12 存在已知漏洞 CVE-2026-67213",
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "osv:GHSA-r28c-9q8g-f849",
+        "label": "postcss@8.5.15 存在已知漏洞 CVE-2026-73646",
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "osv:GHSA-395f-4hp3-45gv",
+        "label": "shell-quote@1.8.3 存在已知漏洞 CVE-2026-13311",
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "osv:GHSA-68fv-2mgg-jv7q",
+        "label": "source-map-js@1.2.1 存在已知漏洞 CVE-2026-93749",
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "osv:GHSA-8x88-c5mf-7j5w",
+        "label": "tar@7.5.15 存在已知漏洞 CVE-2026-59874",
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "osv:GHSA-r292-9mhp-454m",
+        "label": "tar@7.5.15 存在已知漏洞 CVE-2026-73566",
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "osv:GHSA-rfgv-xxqx-mfg5",
+        "label": "undici@6.26.0 存在已知漏洞 CVE-2026-19534",
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "osv:GHSA-vxpw-j846-p89q",
+        "label": "undici@6.26.0 存在已知漏洞 CVE-2026-12151",
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "osv:GHSA-fx2h-pf6j-xcff",
+        "label": "vite@7.3.3 存在已知漏洞 CVE-2026-53571",
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "generic-high-entropy-secret",
+        "label": "High-entropy assigned secret",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 1
+      },
+      {
+        "key": "cwe-command-injection",
+        "label": "Command injection sink with user input",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0
+      },
+      {
+        "key": "osv:GHSA-w5vr-8v7q-w6rv",
+        "label": "baseline-browser-mapping@2.10.32 存在已知漏洞 CVE-2026-45819",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0
+      },
+      {
+        "key": "osv:GHSA-v422-hmwv-36x6",
+        "label": "body-parser@2.2.2 存在已知漏洞 CVE-2026-12590",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 1
+      },
+      {
+        "key": "osv:GHSA-g7r4-m6w7-qqqr",
+        "label": "esbuild@0.27.7 存在已知漏洞 GHSA-g7r4-m6w7-qqqr",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 1
+      },
+      {
+        "key": "osv:GHSA-fxqj-rqcc-2cmp",
+        "label": "postcss@8.5.15 存在已知漏洞 CVE-2026-69153",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0
+      },
+      {
+        "key": "osv:GHSA-4mjr-xmp4-gh2g",
+        "label": "qs@6.15.2 存在已知漏洞 CVE-2026-82417",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0
+      },
+      {
+        "key": "osv:GHSA-x5fp-wj9c-mxmx",
+        "label": "qs@6.15.2 存在已知漏洞 CVE-2026-82562",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0
+      },
+      {
+        "key": "osv:GHSA-gvwx-54wh-qm9j",
+        "label": "tar@7.5.15 存在已知漏洞 CVE-2026-59875",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0
+      },
+      {
+        "key": "osv:GHSA-vmf3-w455-68vh",
+        "label": "tar@7.5.15 存在已知漏洞 CVE-2026-53655",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0
+      },
+      {
+        "key": "osv:GHSA-w8wr-v893-vjvp",
+        "label": "tar@7.5.15 存在已知漏洞 CVE-2026-59871",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0
+      },
+      {
+        "key": "osv:GHSA-35p6-xmwp-9g52",
+        "label": "undici@6.26.0 存在已知漏洞 CVE-2026-6733",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 1
+      },
+      {
+        "key": "osv:GHSA-3wwx-pv8p-q78v",
+        "label": "undici@6.26.0 存在已知漏洞 CVE-2026-85024",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0
+      },
+      {
+        "key": "osv:GHSA-8xcm-r25x-g524",
+        "label": "undici@6.26.0 存在已知漏洞 CVE-2026-16728",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0
+      },
+      {
+        "key": "osv:GHSA-g8m3-5g58-fq7m",
+        "label": "undici@6.26.0 存在已知漏洞 CVE-2026-11525",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 1
+      },
+      {
+        "key": "osv:GHSA-m8rv-5g2x-5cg5",
+        "label": "undici@6.26.0 存在已知漏洞 CVE-2026-15157",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0
+      },
+      {
+        "key": "osv:GHSA-p88m-4jfj-68fv",
+        "label": "undici@6.26.0 存在已知漏洞 CVE-2026-9679",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0
+      },
+      {
+        "key": "osv:GHSA-r53p-7pc4-xj5r",
+        "label": "undici@6.26.0 存在已知漏洞 CVE-2026-18540",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 1
+      },
+      {
+        "key": "osv:GHSA-v3r7-h72x-cjcm",
+        "label": "undici@6.26.0 存在已知漏洞 CVE-2026-16729",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0
+      },
+      {
+        "key": "osv:GHSA-v6wh-96g9-6wx3",
+        "label": "vite@7.3.3 存在已知漏洞 CVE-2026-53632",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0
+      }
+    ],
+    "byCve": [
+      {
+        "key": "CVE-2026-90711",
+        "label": "CVE-2026-90711 / CWE-290",
+        "total": 1,
+        "critical": 1,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "CVE-2026-9277",
+        "label": "CVE-2026-9277 / CWE-77",
+        "total": 1,
+        "critical": 1,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "CVE-2026-59873",
+        "label": "CVE-2026-59873 / CWE-770",
+        "total": 1,
+        "critical": 1,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "CVE-2026-73088",
+        "label": "CVE-2026-73088 / CWE-1321",
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "CVE-2026-73089",
+        "label": "CVE-2026-73089 / CWE-770",
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "CVE-2026-67214",
+        "label": "CVE-2026-67214 / CWE-835",
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "CVE-2026-67213",
+        "label": "CVE-2026-67213 / CWE-835",
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "CVE-2026-73646",
+        "label": "CVE-2026-73646 / CWE-22",
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "CVE-2026-13311",
+        "label": "CVE-2026-13311 / CWE-407",
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "CVE-2026-93749",
+        "label": "CVE-2026-93749 / CWE-1284",
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "CVE-2026-59874",
+        "label": "CVE-2026-59874 / CWE-835",
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "CVE-2026-73566",
+        "label": "CVE-2026-73566 / CWE-400",
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "CVE-2026-19534",
+        "label": "CVE-2026-19534 / CWE-248",
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "CVE-2026-12151",
+        "label": "CVE-2026-12151 / CWE-400",
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "CVE-2026-53571",
+        "label": "CVE-2026-53571 / CWE-200",
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "CWE-78",
+        "label": "CWE-78",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0
+      },
+      {
+        "key": "CVE-2026-45819",
+        "label": "CVE-2026-45819 / CWE-705",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0
+      },
+      {
+        "key": "CVE-2026-12590",
+        "label": "CVE-2026-12590 / CWE-770",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 1
+      },
+      {
+        "key": "CWE-22",
+        "label": "CWE-22",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 1
+      },
+      {
+        "key": "CVE-2026-69153",
+        "label": "CVE-2026-69153 / CWE-200",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0
+      },
+      {
+        "key": "CVE-2026-82417",
+        "label": "CVE-2026-82417 / CWE-248",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0
+      },
+      {
+        "key": "CVE-2026-82562",
+        "label": "CVE-2026-82562 / CWE-770",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0
+      },
+      {
+        "key": "CVE-2026-59875",
+        "label": "CVE-2026-59875 / CWE-248",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0
+      },
+      {
+        "key": "CVE-2026-53655",
+        "label": "CVE-2026-53655 / CWE-436",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0
+      },
+      {
+        "key": "CVE-2026-59871",
+        "label": "CVE-2026-59871 / CWE-704",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0
+      },
+      {
+        "key": "CVE-2026-6733",
+        "label": "CVE-2026-6733 / CWE-367",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 1
+      },
+      {
+        "key": "CVE-2026-85024",
+        "label": "CVE-2026-85024 / CWE-248",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0
+      },
+      {
+        "key": "CVE-2026-16728",
+        "label": "CVE-2026-16728 / CWE-444",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0
+      },
+      {
+        "key": "CVE-2026-11525",
+        "label": "CVE-2026-11525 / CWE-183",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 1
+      },
+      {
+        "key": "CVE-2026-15157",
+        "label": "CVE-2026-15157 / CWE-93",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0
+      },
+      {
+        "key": "CVE-2026-9679",
+        "label": "CVE-2026-9679 / CWE-93",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0
+      },
+      {
+        "key": "CVE-2026-18540",
+        "label": "CVE-2026-18540 / CWE-444",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 1
+      },
+      {
+        "key": "CVE-2026-16729",
+        "label": "CVE-2026-16729 / CWE-74",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0
+      },
+      {
+        "key": "CVE-2026-53632",
+        "label": "CVE-2026-53632 / CWE-522",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0
+      }
+    ],
+    "byProvider": [
+      {
+        "key": "OSV.dev",
+        "label": "OSV.dev",
+        "total": 33,
+        "critical": 3,
+        "high": 12,
+        "medium": 13,
+        "low": 5
+      },
+      {
+        "key": "database",
+        "label": "database",
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "datadog",
+        "label": "datadog",
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "generic",
+        "label": "generic",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 1
+      },
+      {
+        "key": "static-analysis",
+        "label": "static-analysis",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0
+      }
+    ],
+    "byCategory": [
+      {
+        "key": "dependency-cve",
+        "label": "dependency-cve",
+        "total": 33,
+        "critical": 3,
+        "high": 12,
+        "medium": 13,
+        "low": 5
+      },
+      {
+        "key": "database",
+        "label": "database",
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "monitoring",
+        "label": "monitoring",
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "generic",
+        "label": "generic",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 1
+      },
+      {
+        "key": "code-vulnerability",
+        "label": "code-vulnerability",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0
+      }
+    ],
+    "byEvidenceLevel": [
+      {
+        "key": "osv_advisory",
+        "label": "osv_advisory",
+        "total": 33,
+        "critical": 3,
+        "high": 12,
+        "medium": 13,
+        "low": 5
+      },
+      {
+        "key": "confirmed_pattern",
+        "label": "confirmed_pattern",
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "contextual_pattern",
+        "label": "contextual_pattern",
+        "total": 1,
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "generic_entropy",
+        "label": "generic_entropy",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 1
+      },
+      {
+        "key": "static_vulnerability_pattern",
+        "label": "static_vulnerability_pattern",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0
+      }
+    ],
+    "bySeverity": [
+      {
+        "key": "critical",
+        "label": "critical",
+        "total": 3,
+        "critical": 3,
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "high",
+        "label": "high",
+        "total": 14,
+        "critical": 0,
+        "high": 14,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "medium",
+        "label": "medium",
+        "total": 14,
+        "critical": 0,
+        "high": 0,
+        "medium": 14,
+        "low": 0
+      },
+      {
+        "key": "low",
+        "label": "low",
+        "total": 6,
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 6
+      }
+    ],
+    "byStage": [
+      {
+        "key": "dependency-osv",
+        "label": "dependency-osv",
+        "total": 33,
+        "critical": 3,
+        "high": 12,
+        "medium": 13,
+        "low": 5
+      },
+      {
+        "key": "token-pattern",
+        "label": "token-pattern",
+        "total": 2,
+        "critical": 0,
+        "high": 2,
+        "medium": 0,
+        "low": 0
+      },
+      {
+        "key": "entropy-context",
+        "label": "entropy-context",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 1
+      },
+      {
+        "key": "vulnerability-pattern",
+        "label": "vulnerability-pattern",
+        "total": 1,
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0
+      }
+    ]
+  },
+  "riskProjects": [],
+  "findings": [
+    {
+      "id": "generic-high-entropy-secret-tests\\scanner.test.js-32-9bf5af13",
+      "ruleId": "generic-high-entropy-secret",
+      "label": "High-entropy assigned secret",
+      "severity": "low",
+      "stage": "entropy-context",
+      "file": "tests\\scanner.test.js",
+      "line": 32,
+      "source": "current",
+      "provider": "generic",
+      "category": "generic",
+      "evidenceLevel": "generic_entropy",
+      "sourceRuleSet": "builtin",
+      "actionable": true,
+      "masked": "N9tM...W0aE",
+      "context": "line: \"CLIENT_SECRET='N9tM...W0aE'\",",
+      "fingerprint": "1a2a0ff6",
+      "entropy": 5,
+      "advice": "Move this value into a secret manager or environment variable, then rotate it if it was real.",
+      "exploitability": {
+        "summary": "高熵 secret 结合敏感变量名通常表示真实密钥、密码或令牌，应按已泄露处理。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "业务接口冒用",
+            "impact": "使用该值访问应用、数据库、第三方 API 或内部服务。",
+            "prerequisites": "secret 有效，且目标服务没有额外绑定或轮换。"
+          }
+        ],
+        "safeTests": [
+          {
+            "name": "公开定位证据",
+            "result": "not_applicable",
+            "evidence": "本地/历史扫描没有公开 URL。"
+          },
+          {
+            "name": "敏感规则匹配",
+            "result": "passed",
+            "evidence": "High-entropy assigned secret matched by entropy-context."
+          },
+          {
+            "name": "占位符排除",
+            "result": "passed",
+            "evidence": "上下文未命中常见 example/sample/placeholder/changeme 标记。"
+          },
+          {
+            "name": "高熵/格式证据",
+            "result": "passed",
+            "evidence": "脱敏值熵=5; stage=entropy-context."
+          },
+          {
+            "name": "敏感上下文",
+            "result": "passed",
+            "evidence": "变量名或上下文包含 token/key/secret/password 等敏感语义。"
+          },
+          {
+            "name": "权限验证状态",
+            "result": "not_run",
+            "evidence": "未调用 GitHub/OpenAI/AWS/Slack/Stripe 等第三方 API 验证凭证有效性。"
+          }
+        ],
+        "limitation": "非侵入式安全测试只证明公开暴露、格式和上下文风险，不会调用第三方 API 或使用泄露凭证验证权限。"
+      },
+      "originalSeverity": "medium",
+      "inTestFile": true,
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "database-url-with-password-tests\\scanner.test.js-52-8d78f421",
+      "ruleId": "database-url-with-password",
+      "label": "Database URL with password",
+      "severity": "high",
+      "stage": "token-pattern",
+      "file": "tests\\scanner.test.js",
+      "line": 52,
+      "source": "current",
+      "provider": "database",
+      "category": "database",
+      "evidenceLevel": "confirmed_pattern",
+      "sourceRuleSet": "builtin",
+      "actionable": true,
+      "masked": "post...prod",
+      "context": "line: \"DATABASE_URL=post...prod\",",
+      "fingerprint": "bd47e181",
+      "entropy": 4.46,
+      "advice": "Rotate the database password and enforce network and role-level restrictions.",
+      "exploitability": {
+        "summary": "带用户名和密码的数据库连接串暴露通常可以直接指向可尝试登录的数据资产。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "数据库访问",
+            "impact": "读取、写入或删除业务数据。",
+            "prerequisites": "数据库网络可达、密码仍有效且账号权限允许。"
+          }
+        ],
+        "safeTests": [
+          {
+            "name": "公开定位证据",
+            "result": "not_applicable",
+            "evidence": "本地/历史扫描没有公开 URL。"
+          },
+          {
+            "name": "敏感规则匹配",
+            "result": "passed",
+            "evidence": "Database URL with password matched by token-pattern."
+          },
+          {
+            "name": "占位符排除",
+            "result": "passed",
+            "evidence": "上下文未命中常见 example/sample/placeholder/changeme 标记。"
+          },
+          {
+            "name": "高熵/格式证据",
+            "result": "passed",
+            "evidence": "脱敏值熵=4.46; stage=token-pattern."
+          },
+          {
+            "name": "敏感上下文",
+            "result": "passed",
+            "evidence": "变量名或上下文包含 token/key/secret/password 等敏感语义。"
+          },
+          {
+            "name": "权限验证状态",
+            "result": "not_run",
+            "evidence": "未调用 GitHub/OpenAI/AWS/Slack/Stripe 等第三方 API 验证凭证有效性。"
+          }
+        ],
+        "limitation": "非侵入式安全测试只证明公开暴露、格式和上下文风险，不会调用第三方 API 或使用泄露凭证验证权限。"
+      },
+      "originalSeverity": "critical",
+      "inTestFile": true,
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "coff0xc-datadog-api-tests\\scanner.test.js-93-86d04db5",
+      "ruleId": "coff0xc-datadog-api",
+      "label": "Datadog API key",
+      "severity": "high",
+      "stage": "token-pattern",
+      "file": "tests\\scanner.test.js",
+      "line": 93,
+      "source": "current",
+      "provider": "datadog",
+      "category": "monitoring",
+      "evidenceLevel": "contextual_pattern",
+      "sourceRuleSet": "coff0xc-github-api-scan",
+      "actionable": true,
+      "masked": "0123...cdef",
+      "context": "line: \"DATADOG_API_KEY=0123...cdef\",",
+      "fingerprint": "8eaee52e",
+      "entropy": 4,
+      "advice": "Treat this credential-like value as exposed. Rotate it if it belongs to you and audit recent usage.",
+      "exploitability": {
+        "summary": "该命中具备凭证泄露或敏感配置暴露特征，需要结合上下文复核。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "未授权访问",
+            "impact": "可能访问相关应用、服务或数据。",
+            "prerequisites": "凭证有效且目标服务接受该凭证。"
+          }
+        ],
+        "safeTests": [
+          {
+            "name": "公开定位证据",
+            "result": "not_applicable",
+            "evidence": "本地/历史扫描没有公开 URL。"
+          },
+          {
+            "name": "敏感规则匹配",
+            "result": "passed",
+            "evidence": "Datadog API key matched by token-pattern."
+          },
+          {
+            "name": "占位符排除",
+            "result": "passed",
+            "evidence": "上下文未命中常见 example/sample/placeholder/changeme 标记。"
+          },
+          {
+            "name": "高熵/格式证据",
+            "result": "passed",
+            "evidence": "脱敏值熵=4; stage=token-pattern."
+          },
+          {
+            "name": "敏感上下文",
+            "result": "passed",
+            "evidence": "变量名或上下文包含 token/key/secret/password 等敏感语义。"
+          },
+          {
+            "name": "权限验证状态",
+            "result": "not_run",
+            "evidence": "未调用 GitHub/OpenAI/AWS/Slack/Stripe 等第三方 API 验证凭证有效性。"
+          }
+        ],
+        "limitation": "非侵入式安全测试只证明公开暴露、格式和上下文风险，不会调用第三方 API 或使用泄露凭证验证权限。"
+      },
+      "originalSeverity": "critical",
+      "inTestFile": true,
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "cwe-command-injection-tests\\scanner.test.js-145-b02c6e24",
+      "ruleId": "cwe-command-injection",
+      "label": "Command injection sink with user input",
+      "severity": "medium",
+      "stage": "vulnerability-pattern",
+      "file": "tests\\scanner.test.js",
+      "line": 145,
+      "source": "current",
+      "provider": "static-analysis",
+      "category": "code-vulnerability",
+      "evidenceLevel": "static_vulnerability_pattern",
+      "sourceRuleSet": "builtin-vulnerability",
+      "actionable": true,
+      "masked": "[static-risk]",
+      "context": "line: \"exec(`convert ${req.query.file}`)\",",
+      "fingerprint": "59e90837",
+      "entropy": 0,
+      "cwe": "CWE-78",
+      "possibleCves": [],
+      "advice": "Avoid shell execution with user input. Use argument arrays, strict allowlists, and disable shell interpolation.",
+      "exploitability": {
+        "summary": "检测到命令执行函数和用户可控输入出现在同一语句，可能形成命令注入。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "系统命令注入",
+            "impact": "执行任意系统命令，读取文件、植入后门或横向移动。",
+            "prerequisites": "用户输入能进入命令字符串，且没有严格白名单或参数隔离。"
+          }
+        ],
+        "safeTests": [
+          {
+            "name": "公开定位证据",
+            "result": "not_applicable",
+            "evidence": "本地/历史扫描没有公开 URL。"
+          },
+          {
+            "name": "敏感规则匹配",
+            "result": "passed",
+            "evidence": "Command injection sink with user input matched by vulnerability-pattern."
+          },
+          {
+            "name": "占位符排除",
+            "result": "passed",
+            "evidence": "上下文未命中常见 example/sample/placeholder/changeme 标记。"
+          },
+          {
+            "name": "CVE/CWE 映射",
+            "result": "passed",
+            "evidence": "CWE-78"
+          },
+          {
+            "name": "危险代码模式",
+            "result": "passed",
+            "evidence": "静态规则 cwe-command-injection 命中当前文件内容。"
+          },
+          {
+            "name": "利用验证状态",
+            "result": "not_run",
+            "evidence": "未对目标项目发起漏洞利用、探测 payload 或第三方服务验证。"
+          }
+        ],
+        "limitation": "非侵入式安全测试只证明公开暴露、格式和上下文风险，不会调用第三方 API 或使用泄露凭证验证权限。"
+      },
+      "originalSeverity": "high",
+      "inTestFile": true,
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-w5vr-8v7q-w6rv-package-lock.json-baseline-browser-mapping@2.10.32",
+      "ruleId": "osv:GHSA-w5vr-8v7q-w6rv",
+      "label": "baseline-browser-mapping@2.10.32 存在已知漏洞 CVE-2026-45819",
+      "severity": "medium",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 1257,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "baseline-browser-mapping@2.10.32 · baseline-browser-mapping process termination on invalid input causes denial of service",
+      "entropy": 0,
+      "cwe": "CWE-705",
+      "possibleCves": [
+        "CVE-2026-45819"
+      ],
+      "fingerprint": "2f5a81ba",
+      "advisory": {
+        "id": "GHSA-w5vr-8v7q-w6rv",
+        "aliases": [
+          "CVE-2026-45819"
+        ],
+        "summary": "baseline-browser-mapping process termination on invalid input causes denial of service",
+        "url": "https://osv.dev/vulnerability/GHSA-w5vr-8v7q-w6rv",
+        "published": "2026-08-13T12:31:09Z"
+      },
+      "package": {
+        "name": "baseline-browser-mapping",
+        "version": "2.10.32",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "2.11.0",
+        "upgrade": "npm install baseline-browser-mapping@2.11.0"
+      },
+      "advice": "升级 baseline-browser-mapping 到 2.11.0 或更高版本：npm install baseline-browser-mapping@2.11.0。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "baseline-browser-mapping process termination on invalid input causes denial of service",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-v422-hmwv-36x6-package-lock.json-body-parser@2.2.2",
+      "ruleId": "osv:GHSA-v422-hmwv-36x6",
+      "label": "body-parser@2.2.2 存在已知漏洞 CVE-2026-12590",
+      "severity": "low",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 1269,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "body-parser@2.2.2 · body-parser vulnerable to denial of service when invalid limit value silently disables size enforcement",
+      "entropy": 0,
+      "cwe": "CWE-770",
+      "possibleCves": [
+        "CVE-2026-12590"
+      ],
+      "fingerprint": "380848c5",
+      "advisory": {
+        "id": "GHSA-v422-hmwv-36x6",
+        "aliases": [
+          "CVE-2026-12590"
+        ],
+        "summary": "body-parser vulnerable to denial of service when invalid limit value silently disables size enforcement",
+        "url": "https://osv.dev/vulnerability/GHSA-v422-hmwv-36x6",
+        "cvss": 3.7,
+        "published": "2026-07-20T23:23:26Z"
+      },
+      "package": {
+        "name": "body-parser",
+        "version": "2.2.2",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "2.3.0",
+        "upgrade": "npm install body-parser@2.3.0"
+      },
+      "advice": "升级 body-parser 到 2.3.0 或更高版本：npm install body-parser@2.3.0。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "body-parser vulnerable to denial of service when invalid limit value silently disables size enforcement",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-73wf-gq98-2v4g-package-lock.json-browserslist@4.28.2",
+      "ruleId": "osv:GHSA-73wf-gq98-2v4g",
+      "label": "browserslist@4.28.2 存在已知漏洞 CVE-2026-73088",
+      "severity": "high",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 1293,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "browserslist@4.28.2 · Browserslist: Uncaught crash / prototype write via untrusted browserslist-stats.json custom stats (normalizeStats)",
+      "entropy": 0,
+      "cwe": "CWE-1321",
+      "possibleCves": [
+        "CVE-2026-73088"
+      ],
+      "fingerprint": "1b2d2908",
+      "advisory": {
+        "id": "GHSA-73wf-gq98-2v4g",
+        "aliases": [
+          "CVE-2026-73088"
+        ],
+        "summary": "Browserslist: Uncaught crash / prototype write via untrusted browserslist-stats.json custom stats (normalizeStats)",
+        "url": "https://osv.dev/vulnerability/GHSA-73wf-gq98-2v4g",
+        "cvss": 7.5,
+        "published": "2026-09-01T16:41:54Z"
+      },
+      "package": {
+        "name": "browserslist",
+        "version": "4.28.2",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "4.28.7",
+        "upgrade": "npm install browserslist@4.28.7"
+      },
+      "advice": "升级 browserslist 到 4.28.7 或更高版本：npm install browserslist@4.28.7。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "Browserslist: Uncaught crash / prototype write via untrusted browserslist-stats.json custom stats (normalizeStats)",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-c83g-rgw3-j3cx-package-lock.json-browserslist@4.28.2",
+      "ruleId": "osv:GHSA-c83g-rgw3-j3cx",
+      "label": "browserslist@4.28.2 存在已知漏洞 CVE-2026-73089",
+      "severity": "high",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 1293,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "browserslist@4.28.2 · Browserslist: Unbounded memory growth (no cache eviction) via distinct query results, leading to eventual OOM",
+      "entropy": 0,
+      "cwe": "CWE-770",
+      "possibleCves": [
+        "CVE-2026-73089"
+      ],
+      "fingerprint": "3fe168f9",
+      "advisory": {
+        "id": "GHSA-c83g-rgw3-j3cx",
+        "aliases": [
+          "CVE-2026-73089"
+        ],
+        "summary": "Browserslist: Unbounded memory growth (no cache eviction) via distinct query results, leading to eventual OOM",
+        "url": "https://osv.dev/vulnerability/GHSA-c83g-rgw3-j3cx",
+        "cvss": 7.5,
+        "published": "2026-09-01T16:42:13Z"
+      },
+      "package": {
+        "name": "browserslist",
+        "version": "4.28.2",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "4.28.7",
+        "upgrade": "npm install browserslist@4.28.7"
+      },
+      "advice": "升级 browserslist 到 4.28.7 或更高版本：npm install browserslist@4.28.7。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "Browserslist: Unbounded memory growth (no cache eviction) via distinct query results, leading to eventual OOM",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-g7r4-m6w7-qqqr-package-lock.json-esbuild@0.27.7",
+      "ruleId": "osv:GHSA-g7r4-m6w7-qqqr",
+      "label": "esbuild@0.27.7 存在已知漏洞 GHSA-g7r4-m6w7-qqqr",
+      "severity": "low",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 1620,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "esbuild@0.27.7 · esbuild allows arbitrary file read when running the development server on Windows",
+      "entropy": 0,
+      "cwe": "CWE-22",
+      "possibleCves": [],
+      "fingerprint": "75e2c550",
+      "advisory": {
+        "id": "GHSA-g7r4-m6w7-qqqr",
+        "aliases": [],
+        "summary": "esbuild allows arbitrary file read when running the development server on Windows",
+        "url": "https://osv.dev/vulnerability/GHSA-g7r4-m6w7-qqqr",
+        "cvss": 2.5,
+        "published": "2026-06-12T20:08:53Z"
+      },
+      "package": {
+        "name": "esbuild",
+        "version": "0.27.7",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "0.28.1",
+        "upgrade": "npm install esbuild@0.28.1"
+      },
+      "advice": "升级 esbuild 到 0.28.1 或更高版本：npm install esbuild@0.28.1。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "esbuild allows arbitrary file read when running the development server on Windows",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-28wg-ghj8-5hjv-package-lock.json-nanoid@3.3.12",
+      "ruleId": "osv:GHSA-28wg-ghj8-5hjv",
+      "label": "nanoid@3.3.12 存在已知漏洞 CVE-2026-67214",
+      "severity": "high",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 2132,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "nanoid@3.3.12 · nanoid: non-secure generators can loop indefinitely with negative size",
+      "entropy": 0,
+      "cwe": "CWE-835",
+      "possibleCves": [
+        "CVE-2026-67214"
+      ],
+      "fingerprint": "d68d27eb",
+      "advisory": {
+        "id": "GHSA-28wg-ghj8-5hjv",
+        "aliases": [
+          "CVE-2026-67214"
+        ],
+        "summary": "nanoid: non-secure generators can loop indefinitely with negative size",
+        "url": "https://osv.dev/vulnerability/GHSA-28wg-ghj8-5hjv",
+        "cvss": 5.9,
+        "published": "2026-07-29T15:31:12Z"
+      },
+      "package": {
+        "name": "nanoid",
+        "version": "3.3.12",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "3.3.16",
+        "upgrade": "npm install nanoid@3.3.16"
+      },
+      "advice": "升级 nanoid 到 3.3.16 或更高版本：npm install nanoid@3.3.16。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "nanoid: non-secure generators can loop indefinitely with negative size",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-2v37-7h3g-55p8-package-lock.json-nanoid@3.3.12",
+      "ruleId": "osv:GHSA-2v37-7h3g-55p8",
+      "label": "nanoid@3.3.12 存在已知漏洞 CVE-2026-67213",
+      "severity": "high",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 2132,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "nanoid@3.3.12 · nanoid: custom generators can loop indefinitely when size is zero",
+      "entropy": 0,
+      "cwe": "CWE-835",
+      "possibleCves": [
+        "CVE-2026-67213"
+      ],
+      "fingerprint": "e1e8600c",
+      "advisory": {
+        "id": "GHSA-2v37-7h3g-55p8",
+        "aliases": [
+          "CVE-2026-67213"
+        ],
+        "summary": "nanoid: custom generators can loop indefinitely when size is zero",
+        "url": "https://osv.dev/vulnerability/GHSA-2v37-7h3g-55p8",
+        "cvss": 5.9,
+        "published": "2026-07-29T15:31:12Z"
+      },
+      "package": {
+        "name": "nanoid",
+        "version": "3.3.12",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "3.3.18",
+        "upgrade": "npm install nanoid@3.3.18"
+      },
+      "advice": "升级 nanoid 到 3.3.18 或更高版本：npm install nanoid@3.3.18。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "nanoid: custom generators can loop indefinitely when size is zero",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-fxqj-rqcc-2cmp-package-lock.json-postcss@8.5.15",
+      "ruleId": "osv:GHSA-fxqj-rqcc-2cmp",
+      "label": "postcss@8.5.15 存在已知漏洞 CVE-2026-69153",
+      "severity": "medium",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 2238,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "postcss@8.5.15 · PostCSS: incomplete fix of GHSA-6g55-p6wh-862q — attacker-controlled sourceMappingURL reads arbitrary .map files when `from` is unset",
+      "entropy": 0,
+      "cwe": "CWE-200",
+      "possibleCves": [
+        "CVE-2026-69153"
+      ],
+      "fingerprint": "6fea31e1",
+      "advisory": {
+        "id": "GHSA-fxqj-rqcc-2cmp",
+        "aliases": [
+          "CVE-2026-69153"
+        ],
+        "summary": "PostCSS: incomplete fix of GHSA-6g55-p6wh-862q — attacker-controlled sourceMappingURL reads arbitrary .map files when `from` is unset",
+        "url": "https://osv.dev/vulnerability/GHSA-fxqj-rqcc-2cmp",
+        "published": "2026-08-03T17:11:39Z"
+      },
+      "package": {
+        "name": "postcss",
+        "version": "8.5.15",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "8.5.23",
+        "upgrade": "npm install postcss@8.5.23"
+      },
+      "advice": "升级 postcss 到 8.5.23 或更高版本：npm install postcss@8.5.23。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "PostCSS: incomplete fix of GHSA-6g55-p6wh-862q — attacker-controlled sourceMappingURL reads arbitrary .map files when `from` is unset",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-r28c-9q8g-f849-package-lock.json-postcss@8.5.15",
+      "ruleId": "osv:GHSA-r28c-9q8g-f849",
+      "label": "postcss@8.5.15 存在已知漏洞 CVE-2026-73646",
+      "severity": "high",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 2238,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "postcss@8.5.15 · PostCSS: Path Traversal in Previous Source Map Auto-Loading (sourceMappingURL) leads to Arbitrary .map File Disclosure",
+      "entropy": 0,
+      "cwe": "CWE-22",
+      "possibleCves": [
+        "CVE-2026-73646"
+      ],
+      "fingerprint": "d196e49a",
+      "advisory": {
+        "id": "GHSA-r28c-9q8g-f849",
+        "aliases": [
+          "CVE-2026-73646"
+        ],
+        "summary": "PostCSS: Path Traversal in Previous Source Map Auto-Loading (sourceMappingURL) leads to Arbitrary .map File Disclosure",
+        "url": "https://osv.dev/vulnerability/GHSA-r28c-9q8g-f849",
+        "cvss": 7.5,
+        "published": "2026-07-24T16:24:55Z"
+      },
+      "package": {
+        "name": "postcss",
+        "version": "8.5.15",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "8.5.18",
+        "upgrade": "npm install postcss@8.5.18"
+      },
+      "advice": "升级 postcss 到 8.5.18 或更高版本：npm install postcss@8.5.18。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "PostCSS: Path Traversal in Previous Source Map Auto-Loading (sourceMappingURL) leads to Arbitrary .map File Disclosure",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-jqcg-44mw-7w3h-package-lock.json-proxy-addr@2.0.7",
+      "ruleId": "osv:GHSA-jqcg-44mw-7w3h",
+      "label": "proxy-addr@2.0.7 存在已知漏洞 CVE-2026-90711",
+      "severity": "critical",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 2266,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "proxy-addr@2.0.7 · proxy-addr vulnerable to IP spoofing via IPv4-mapped IPv6 trust subnet",
+      "entropy": 0,
+      "cwe": "CWE-290",
+      "possibleCves": [
+        "CVE-2026-90711"
+      ],
+      "fingerprint": "27fa735c",
+      "advisory": {
+        "id": "GHSA-jqcg-44mw-7w3h",
+        "aliases": [
+          "CVE-2026-90711"
+        ],
+        "summary": "proxy-addr vulnerable to IP spoofing via IPv4-mapped IPv6 trust subnet",
+        "url": "https://osv.dev/vulnerability/GHSA-jqcg-44mw-7w3h",
+        "cvss": 9.1,
+        "published": "2026-10-05T23:30:26Z"
+      },
+      "package": {
+        "name": "proxy-addr",
+        "version": "2.0.7",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "2.0.8",
+        "upgrade": "npm install proxy-addr@2.0.8"
+      },
+      "advice": "升级 proxy-addr 到 2.0.8 或更高版本：npm install proxy-addr@2.0.8。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "proxy-addr vulnerable to IP spoofing via IPv4-mapped IPv6 trust subnet",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-4mjr-xmp4-gh2g-package-lock.json-qs@6.15.2",
+      "ruleId": "osv:GHSA-4mjr-xmp4-gh2g",
+      "label": "qs@6.15.2 存在已知漏洞 CVE-2026-82417",
+      "severity": "medium",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 2279,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "qs@6.15.2 · qs: Denial of Service via Attacker Controlled isBuffer",
+      "entropy": 0,
+      "cwe": "CWE-248",
+      "possibleCves": [
+        "CVE-2026-82417"
+      ],
+      "fingerprint": "8a2a9cdc",
+      "advisory": {
+        "id": "GHSA-4mjr-xmp4-gh2g",
+        "aliases": [
+          "CVE-2026-82417"
+        ],
+        "summary": "qs: Denial of Service via Attacker Controlled isBuffer",
+        "url": "https://osv.dev/vulnerability/GHSA-4mjr-xmp4-gh2g",
+        "cvss": 5.3,
+        "published": "2026-09-02T14:45:13Z"
+      },
+      "package": {
+        "name": "qs",
+        "version": "6.15.2",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "6.16.0",
+        "upgrade": "npm install qs@6.16.0"
+      },
+      "advice": "升级 qs 到 6.16.0 或更高版本：npm install qs@6.16.0。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "qs: Denial of Service via Attacker Controlled isBuffer",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-x5fp-wj9c-mxmx-package-lock.json-qs@6.15.2",
+      "ruleId": "osv:GHSA-x5fp-wj9c-mxmx",
+      "label": "qs@6.15.2 存在已知漏洞 CVE-2026-82562",
+      "severity": "medium",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 2279,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "qs@6.15.2 · qs array-limit bypass via bracket-key comma parsing",
+      "entropy": 0,
+      "cwe": "CWE-770",
+      "possibleCves": [
+        "CVE-2026-82562"
+      ],
+      "fingerprint": "4eb932e0",
+      "advisory": {
+        "id": "GHSA-x5fp-wj9c-mxmx",
+        "aliases": [
+          "CVE-2026-82562"
+        ],
+        "summary": "qs array-limit bypass via bracket-key comma parsing",
+        "url": "https://osv.dev/vulnerability/GHSA-x5fp-wj9c-mxmx",
+        "cvss": 3.7,
+        "published": "2026-09-02T14:46:57Z"
+      },
+      "package": {
+        "name": "qs",
+        "version": "6.15.2",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "6.16.0",
+        "upgrade": "npm install qs@6.16.0"
+      },
+      "advice": "升级 qs 到 6.16.0 或更高版本：npm install qs@6.16.0。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "qs array-limit bypass via bracket-key comma parsing",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-395f-4hp3-45gv-package-lock.json-shell-quote@1.8.3",
+      "ruleId": "osv:GHSA-395f-4hp3-45gv",
+      "label": "shell-quote@1.8.3 存在已知漏洞 CVE-2026-13311",
+      "severity": "high",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 2507,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "shell-quote@1.8.3 · shell-quote: Quadratic-complexity Denial of Service in `parse()` (CWE-407)",
+      "entropy": 0,
+      "cwe": "CWE-407",
+      "possibleCves": [
+        "CVE-2026-13311"
+      ],
+      "fingerprint": "434029bf",
+      "advisory": {
+        "id": "GHSA-395f-4hp3-45gv",
+        "aliases": [
+          "CVE-2026-13311"
+        ],
+        "summary": "shell-quote: Quadratic-complexity Denial of Service in `parse()` (CWE-407)",
+        "url": "https://osv.dev/vulnerability/GHSA-395f-4hp3-45gv",
+        "cvss": 7.5,
+        "published": "2026-07-20T21:49:34Z"
+      },
+      "package": {
+        "name": "shell-quote",
+        "version": "1.8.3",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "1.9.0",
+        "upgrade": "npm install shell-quote@1.9.0"
+      },
+      "advice": "升级 shell-quote 到 1.9.0 或更高版本：npm install shell-quote@1.9.0。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "shell-quote: Quadratic-complexity Denial of Service in `parse()` (CWE-407)",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-w7jw-789q-3m8p-package-lock.json-shell-quote@1.8.3",
+      "ruleId": "osv:GHSA-w7jw-789q-3m8p",
+      "label": "shell-quote@1.8.3 存在已知漏洞 CVE-2026-9277",
+      "severity": "critical",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 2507,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "shell-quote@1.8.3 · shell-quote quote() does not escape newlines in object .op values",
+      "entropy": 0,
+      "cwe": "CWE-77",
+      "possibleCves": [
+        "CVE-2026-9277"
+      ],
+      "fingerprint": "46bfa643",
+      "advisory": {
+        "id": "GHSA-w7jw-789q-3m8p",
+        "aliases": [
+          "CVE-2026-9277"
+        ],
+        "summary": "shell-quote quote() does not escape newlines in object .op values",
+        "url": "https://osv.dev/vulnerability/GHSA-w7jw-789q-3m8p",
+        "cvss": 8.1,
+        "published": "2026-06-09T14:27:15Z"
+      },
+      "package": {
+        "name": "shell-quote",
+        "version": "1.8.3",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "1.8.4",
+        "upgrade": "npm install shell-quote@1.8.4"
+      },
+      "advice": "升级 shell-quote 到 1.8.4 或更高版本：npm install shell-quote@1.8.4。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "shell-quote quote() does not escape newlines in object .op values",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-68fv-2mgg-jv7q-package-lock.json-source-map-js@1.2.1",
+      "ruleId": "osv:GHSA-68fv-2mgg-jv7q",
+      "label": "source-map-js@1.2.1 存在已知漏洞 CVE-2026-93749",
+      "severity": "high",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 2591,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "source-map-js@1.2.1 · source-map-js allows event-loop denial of service through indexed source-map section offsets",
+      "entropy": 0,
+      "cwe": "CWE-1284",
+      "possibleCves": [
+        "CVE-2026-93749"
+      ],
+      "fingerprint": "5c428c8b",
+      "advisory": {
+        "id": "GHSA-68fv-2mgg-jv7q",
+        "aliases": [
+          "CVE-2026-93749"
+        ],
+        "summary": "source-map-js allows event-loop denial of service through indexed source-map section offsets",
+        "url": "https://osv.dev/vulnerability/GHSA-68fv-2mgg-jv7q",
+        "cvss": 7.5,
+        "published": "2026-09-18T18:31:44Z"
+      },
+      "package": {
+        "name": "source-map-js",
+        "version": "1.2.1",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "1.2.2",
+        "upgrade": "npm install source-map-js@1.2.2"
+      },
+      "advice": "升级 source-map-js 到 1.2.2 或更高版本：npm install source-map-js@1.2.2。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "source-map-js allows event-loop denial of service through indexed source-map section offsets",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-23hp-3jrh-7fpw-package-lock.json-tar@7.5.15",
+      "ruleId": "osv:GHSA-23hp-3jrh-7fpw",
+      "label": "tar@7.5.15 存在已知漏洞 CVE-2026-59873",
+      "severity": "critical",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 2650,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "tar@7.5.15 · node-tar: Decompression/parse DoS via unlimited input",
+      "entropy": 0,
+      "cwe": "CWE-770",
+      "possibleCves": [
+        "CVE-2026-59873"
+      ],
+      "fingerprint": "d214464b",
+      "advisory": {
+        "id": "GHSA-23hp-3jrh-7fpw",
+        "aliases": [
+          "CVE-2026-59873"
+        ],
+        "summary": "node-tar: Decompression/parse DoS via unlimited input",
+        "url": "https://osv.dev/vulnerability/GHSA-23hp-3jrh-7fpw",
+        "cvss": 7.5,
+        "published": "2026-07-20T21:52:03Z"
+      },
+      "package": {
+        "name": "tar",
+        "version": "7.5.15",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "7.5.19",
+        "upgrade": "npm install tar@7.5.19"
+      },
+      "advice": "升级 tar 到 7.5.19 或更高版本：npm install tar@7.5.19。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "node-tar: Decompression/parse DoS via unlimited input",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-8x88-c5mf-7j5w-package-lock.json-tar@7.5.15",
+      "ruleId": "osv:GHSA-8x88-c5mf-7j5w",
+      "label": "tar@7.5.15 存在已知漏洞 CVE-2026-59874",
+      "severity": "high",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 2650,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "tar@7.5.15 · node-tar: Negative tar entry size causes infinite loop in archive replace",
+      "entropy": 0,
+      "cwe": "CWE-835",
+      "possibleCves": [
+        "CVE-2026-59874"
+      ],
+      "fingerprint": "54ec2841",
+      "advisory": {
+        "id": "GHSA-8x88-c5mf-7j5w",
+        "aliases": [
+          "CVE-2026-59874"
+        ],
+        "summary": "node-tar: Negative tar entry size causes infinite loop in archive replace",
+        "url": "https://osv.dev/vulnerability/GHSA-8x88-c5mf-7j5w",
+        "cvss": 7.5,
+        "published": "2026-07-20T21:51:39Z"
+      },
+      "package": {
+        "name": "tar",
+        "version": "7.5.15",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "7.5.18",
+        "upgrade": "npm install tar@7.5.18"
+      },
+      "advice": "升级 tar 到 7.5.18 或更高版本：npm install tar@7.5.18。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "node-tar: Negative tar entry size causes infinite loop in archive replace",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-gvwx-54wh-qm9j-package-lock.json-tar@7.5.15",
+      "ruleId": "osv:GHSA-gvwx-54wh-qm9j",
+      "label": "tar@7.5.15 存在已知漏洞 CVE-2026-59875",
+      "severity": "medium",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 2650,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "tar@7.5.15 · node-tar: Uncaught Exception DoS via NUL byte in PAX path/linkpath records",
+      "entropy": 0,
+      "cwe": "CWE-248",
+      "possibleCves": [
+        "CVE-2026-59875"
+      ],
+      "fingerprint": "11fc03c8",
+      "advisory": {
+        "id": "GHSA-gvwx-54wh-qm9j",
+        "aliases": [
+          "CVE-2026-59875"
+        ],
+        "summary": "node-tar: Uncaught Exception DoS via NUL byte in PAX path/linkpath records",
+        "url": "https://osv.dev/vulnerability/GHSA-gvwx-54wh-qm9j",
+        "cvss": 5.3,
+        "published": "2026-07-20T21:51:12Z"
+      },
+      "package": {
+        "name": "tar",
+        "version": "7.5.15",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "7.5.17",
+        "upgrade": "npm install tar@7.5.17"
+      },
+      "advice": "升级 tar 到 7.5.17 或更高版本：npm install tar@7.5.17。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "node-tar: Uncaught Exception DoS via NUL byte in PAX path/linkpath records",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-r292-9mhp-454m-package-lock.json-tar@7.5.15",
+      "ruleId": "osv:GHSA-r292-9mhp-454m",
+      "label": "tar@7.5.15 存在已知漏洞 CVE-2026-73566",
+      "severity": "high",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 2650,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "tar@7.5.15 · node-tar: Uncontrolled recursion in mapHas/filesFilter allows uncatchable stack-overflow DoS via crafted long-path tar with member selection",
+      "entropy": 0,
+      "cwe": "CWE-400",
+      "possibleCves": [
+        "CVE-2026-73566"
+      ],
+      "fingerprint": "278ae5e8",
+      "advisory": {
+        "id": "GHSA-r292-9mhp-454m",
+        "aliases": [
+          "CVE-2026-73566"
+        ],
+        "summary": "node-tar: Uncontrolled recursion in mapHas/filesFilter allows uncatchable stack-overflow DoS via crafted long-path tar with member selection",
+        "url": "https://osv.dev/vulnerability/GHSA-r292-9mhp-454m",
+        "cvss": 7.5,
+        "published": "2026-07-24T16:26:16Z"
+      },
+      "package": {
+        "name": "tar",
+        "version": "7.5.15",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "7.5.21",
+        "upgrade": "npm install tar@7.5.21"
+      },
+      "advice": "升级 tar 到 7.5.21 或更高版本：npm install tar@7.5.21。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "node-tar: Uncontrolled recursion in mapHas/filesFilter allows uncatchable stack-overflow DoS via crafted long-path tar with member selection",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-vmf3-w455-68vh-package-lock.json-tar@7.5.15",
+      "ruleId": "osv:GHSA-vmf3-w455-68vh",
+      "label": "tar@7.5.15 存在已知漏洞 CVE-2026-53655",
+      "severity": "medium",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 2650,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "tar@7.5.15 · node-tar applies PAX size override to intermediary GNU long-name/long-link headers, causing tar parser interpretation differential (file smuggling)",
+      "entropy": 0,
+      "cwe": "CWE-436",
+      "possibleCves": [
+        "CVE-2026-53655"
+      ],
+      "fingerprint": "4be50594",
+      "advisory": {
+        "id": "GHSA-vmf3-w455-68vh",
+        "aliases": [
+          "CVE-2026-53655"
+        ],
+        "summary": "node-tar applies PAX size override to intermediary GNU long-name/long-link headers, causing tar parser interpretation differential (file smuggling)",
+        "url": "https://osv.dev/vulnerability/GHSA-vmf3-w455-68vh",
+        "published": "2026-06-15T17:19:42Z"
+      },
+      "package": {
+        "name": "tar",
+        "version": "7.5.15",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "7.5.16",
+        "upgrade": "npm install tar@7.5.16"
+      },
+      "advice": "升级 tar 到 7.5.16 或更高版本：npm install tar@7.5.16。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "node-tar applies PAX size override to intermediary GNU long-name/long-link headers, causing tar parser interpretation differential (file smuggling)",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-w8wr-v893-vjvp-package-lock.json-tar@7.5.15",
+      "ruleId": "osv:GHSA-w8wr-v893-vjvp",
+      "label": "tar@7.5.15 存在已知漏洞 CVE-2026-59871",
+      "severity": "medium",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 2650,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "tar@7.5.15 · node-tar: Process crash via PAX numeric path type confusion",
+      "entropy": 0,
+      "cwe": "CWE-704",
+      "possibleCves": [
+        "CVE-2026-59871"
+      ],
+      "fingerprint": "fb1e7683",
+      "advisory": {
+        "id": "GHSA-w8wr-v893-vjvp",
+        "aliases": [
+          "CVE-2026-59871"
+        ],
+        "summary": "node-tar: Process crash via PAX numeric path type confusion",
+        "url": "https://osv.dev/vulnerability/GHSA-w8wr-v893-vjvp",
+        "cvss": 5.3,
+        "published": "2026-07-20T21:53:14Z"
+      },
+      "package": {
+        "name": "tar",
+        "version": "7.5.15",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "7.5.18",
+        "upgrade": "npm install tar@7.5.18"
+      },
+      "advice": "升级 tar 到 7.5.18 或更高版本：npm install tar@7.5.18。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "node-tar: Process crash via PAX numeric path type confusion",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-35p6-xmwp-9g52-package-lock.json-undici@6.26.0",
+      "ruleId": "osv:GHSA-35p6-xmwp-9g52",
+      "label": "undici@6.26.0 存在已知漏洞 CVE-2026-6733",
+      "severity": "low",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 2758,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "undici@6.26.0 · undici vulnerable to HTTP response queue poisoning via keep-alive socket reuse",
+      "entropy": 0,
+      "cwe": "CWE-367",
+      "possibleCves": [
+        "CVE-2026-6733"
+      ],
+      "fingerprint": "d2619d95",
+      "advisory": {
+        "id": "GHSA-35p6-xmwp-9g52",
+        "aliases": [
+          "CVE-2026-6733"
+        ],
+        "summary": "undici vulnerable to HTTP response queue poisoning via keep-alive socket reuse",
+        "url": "https://osv.dev/vulnerability/GHSA-35p6-xmwp-9g52",
+        "cvss": 3.7,
+        "published": "2026-06-19T14:19:13Z"
+      },
+      "package": {
+        "name": "undici",
+        "version": "6.26.0",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "6.27.0",
+        "upgrade": "npm install undici@6.27.0"
+      },
+      "advice": "升级 undici 到 6.27.0 或更高版本：npm install undici@6.27.0。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "undici vulnerable to HTTP response queue poisoning via keep-alive socket reuse",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-3wwx-pv8p-q78v-package-lock.json-undici@6.26.0",
+      "ruleId": "osv:GHSA-3wwx-pv8p-q78v",
+      "label": "undici@6.26.0 存在已知漏洞 CVE-2026-85024",
+      "severity": "medium",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 2758,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "undici@6.26.0 · undici vulnerable to Denial of Service via unhandled error in WebSocket permessage-deflate decompression",
+      "entropy": 0,
+      "cwe": "CWE-248",
+      "possibleCves": [
+        "CVE-2026-85024"
+      ],
+      "fingerprint": "b517d939",
+      "advisory": {
+        "id": "GHSA-3wwx-pv8p-q78v",
+        "aliases": [
+          "CVE-2026-85024"
+        ],
+        "summary": "undici vulnerable to Denial of Service via unhandled error in WebSocket permessage-deflate decompression",
+        "url": "https://osv.dev/vulnerability/GHSA-3wwx-pv8p-q78v",
+        "cvss": 5.9,
+        "published": "2026-09-28T21:42:37Z"
+      },
+      "package": {
+        "name": "undici",
+        "version": "6.26.0",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "6.28.1",
+        "upgrade": "npm install undici@6.28.1"
+      },
+      "advice": "升级 undici 到 6.28.1 或更高版本：npm install undici@6.28.1。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "undici vulnerable to Denial of Service via unhandled error in WebSocket permessage-deflate decompression",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-8xcm-r25x-g524-package-lock.json-undici@6.26.0",
+      "ruleId": "osv:GHSA-8xcm-r25x-g524",
+      "label": "undici@6.26.0 存在已知漏洞 CVE-2026-16728",
+      "severity": "medium",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 2758,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "undici@6.26.0 · undici vulnerable to downstream response desynchronization via retry interceptor",
+      "entropy": 0,
+      "cwe": "CWE-444",
+      "possibleCves": [
+        "CVE-2026-16728"
+      ],
+      "fingerprint": "e64da0c1",
+      "advisory": {
+        "id": "GHSA-8xcm-r25x-g524",
+        "aliases": [
+          "CVE-2026-16728"
+        ],
+        "summary": "undici vulnerable to downstream response desynchronization via retry interceptor",
+        "url": "https://osv.dev/vulnerability/GHSA-8xcm-r25x-g524",
+        "cvss": 4.8,
+        "published": "2026-08-03T19:24:33Z"
+      },
+      "package": {
+        "name": "undici",
+        "version": "6.26.0",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "6.28.0",
+        "upgrade": "npm install undici@6.28.0"
+      },
+      "advice": "升级 undici 到 6.28.0 或更高版本：npm install undici@6.28.0。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "undici vulnerable to downstream response desynchronization via retry interceptor",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-g8m3-5g58-fq7m-package-lock.json-undici@6.26.0",
+      "ruleId": "osv:GHSA-g8m3-5g58-fq7m",
+      "label": "undici@6.26.0 存在已知漏洞 CVE-2026-11525",
+      "severity": "low",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 2758,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "undici@6.26.0 · undici vulnerable to Set-Cookie SameSite attribute downgrade via permissive substring matching",
+      "entropy": 0,
+      "cwe": "CWE-183",
+      "possibleCves": [
+        "CVE-2026-11525"
+      ],
+      "fingerprint": "a8bcfdb1",
+      "advisory": {
+        "id": "GHSA-g8m3-5g58-fq7m",
+        "aliases": [
+          "CVE-2026-11525"
+        ],
+        "summary": "undici vulnerable to Set-Cookie SameSite attribute downgrade via permissive substring matching",
+        "url": "https://osv.dev/vulnerability/GHSA-g8m3-5g58-fq7m",
+        "cvss": 3.7,
+        "published": "2026-06-19T14:34:46Z"
+      },
+      "package": {
+        "name": "undici",
+        "version": "6.26.0",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "6.27.0",
+        "upgrade": "npm install undici@6.27.0"
+      },
+      "advice": "升级 undici 到 6.27.0 或更高版本：npm install undici@6.27.0。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "undici vulnerable to Set-Cookie SameSite attribute downgrade via permissive substring matching",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-m8rv-5g2x-5cg5-package-lock.json-undici@6.26.0",
+      "ruleId": "osv:GHSA-m8rv-5g2x-5cg5",
+      "label": "undici@6.26.0 存在已知漏洞 CVE-2026-15157",
+      "severity": "medium",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 2758,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "undici@6.26.0 · undici vulnerable to CRLF Injection via blob-like body 'type' property",
+      "entropy": 0,
+      "cwe": "CWE-93",
+      "possibleCves": [
+        "CVE-2026-15157"
+      ],
+      "fingerprint": "52b83683",
+      "advisory": {
+        "id": "GHSA-m8rv-5g2x-5cg5",
+        "aliases": [
+          "CVE-2026-15157"
+        ],
+        "summary": "undici vulnerable to CRLF Injection via blob-like body 'type' property",
+        "url": "https://osv.dev/vulnerability/GHSA-m8rv-5g2x-5cg5",
+        "cvss": 4.2,
+        "published": "2026-08-03T19:33:53Z"
+      },
+      "package": {
+        "name": "undici",
+        "version": "6.26.0",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "6.28.0",
+        "upgrade": "npm install undici@6.28.0"
+      },
+      "advice": "升级 undici 到 6.28.0 或更高版本：npm install undici@6.28.0。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "undici vulnerable to CRLF Injection via blob-like body 'type' property",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-p88m-4jfj-68fv-package-lock.json-undici@6.26.0",
+      "ruleId": "osv:GHSA-p88m-4jfj-68fv",
+      "label": "undici@6.26.0 存在已知漏洞 CVE-2026-9679",
+      "severity": "medium",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 2758,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "undici@6.26.0 · undici vulnerable to HTTP header injection via Set-Cookie percent-decoding",
+      "entropy": 0,
+      "cwe": "CWE-93",
+      "possibleCves": [
+        "CVE-2026-9679"
+      ],
+      "fingerprint": "b4e0cfb3",
+      "advisory": {
+        "id": "GHSA-p88m-4jfj-68fv",
+        "aliases": [
+          "CVE-2026-9679"
+        ],
+        "summary": "undici vulnerable to HTTP header injection via Set-Cookie percent-decoding",
+        "url": "https://osv.dev/vulnerability/GHSA-p88m-4jfj-68fv",
+        "cvss": 5.9,
+        "published": "2026-06-19T14:21:30Z"
+      },
+      "package": {
+        "name": "undici",
+        "version": "6.26.0",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "6.27.0",
+        "upgrade": "npm install undici@6.27.0"
+      },
+      "advice": "升级 undici 到 6.27.0 或更高版本：npm install undici@6.27.0。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "undici vulnerable to HTTP header injection via Set-Cookie percent-decoding",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-r53p-7pc4-xj5r-package-lock.json-undici@6.26.0",
+      "ruleId": "osv:GHSA-r53p-7pc4-xj5r",
+      "label": "undici@6.26.0 存在已知漏洞 CVE-2026-18540",
+      "severity": "low",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 2758,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "undici@6.26.0 · undici vulnerable to downstream response splitting via retry interceptor",
+      "entropy": 0,
+      "cwe": "CWE-444",
+      "possibleCves": [
+        "CVE-2026-18540"
+      ],
+      "fingerprint": "fc459c7f",
+      "advisory": {
+        "id": "GHSA-r53p-7pc4-xj5r",
+        "aliases": [
+          "CVE-2026-18540"
+        ],
+        "summary": "undici vulnerable to downstream response splitting via retry interceptor",
+        "url": "https://osv.dev/vulnerability/GHSA-r53p-7pc4-xj5r",
+        "cvss": 3.7,
+        "published": "2026-09-29T18:22:07Z"
+      },
+      "package": {
+        "name": "undici",
+        "version": "6.26.0",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "6.28.1",
+        "upgrade": "npm install undici@6.28.1"
+      },
+      "advice": "升级 undici 到 6.28.1 或更高版本：npm install undici@6.28.1。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "undici vulnerable to downstream response splitting via retry interceptor",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-rfgv-xxqx-mfg5-package-lock.json-undici@6.26.0",
+      "ruleId": "osv:GHSA-rfgv-xxqx-mfg5",
+      "label": "undici@6.26.0 存在已知漏洞 CVE-2026-19534",
+      "severity": "high",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 2758,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "undici@6.26.0 · undici vulnerable to Denial of Service via unrequested WebSocket subprotocol",
+      "entropy": 0,
+      "cwe": "CWE-248",
+      "possibleCves": [
+        "CVE-2026-19534"
+      ],
+      "fingerprint": "6e23f4ed",
+      "advisory": {
+        "id": "GHSA-rfgv-xxqx-mfg5",
+        "aliases": [
+          "CVE-2026-19534"
+        ],
+        "summary": "undici vulnerable to Denial of Service via unrequested WebSocket subprotocol",
+        "url": "https://osv.dev/vulnerability/GHSA-rfgv-xxqx-mfg5",
+        "cvss": 7.5,
+        "published": "2026-09-29T18:21:33Z"
+      },
+      "package": {
+        "name": "undici",
+        "version": "6.26.0",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "6.28.1",
+        "upgrade": "npm install undici@6.28.1"
+      },
+      "advice": "升级 undici 到 6.28.1 或更高版本：npm install undici@6.28.1。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "undici vulnerable to Denial of Service via unrequested WebSocket subprotocol",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-v3r7-h72x-cjcm-package-lock.json-undici@6.26.0",
+      "ruleId": "osv:GHSA-v3r7-h72x-cjcm",
+      "label": "undici@6.26.0 存在已知漏洞 CVE-2026-16729",
+      "severity": "medium",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 2758,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "undici@6.26.0 · undici vulnerable to cookie attribute injection via unsanitized domain and unparsed setCookie fields",
+      "entropy": 0,
+      "cwe": "CWE-74",
+      "possibleCves": [
+        "CVE-2026-16729"
+      ],
+      "fingerprint": "568044ea",
+      "advisory": {
+        "id": "GHSA-v3r7-h72x-cjcm",
+        "aliases": [
+          "CVE-2026-16729"
+        ],
+        "summary": "undici vulnerable to cookie attribute injection via unsanitized domain and unparsed setCookie fields",
+        "url": "https://osv.dev/vulnerability/GHSA-v3r7-h72x-cjcm",
+        "cvss": 4.8,
+        "published": "2026-08-03T19:30:52Z"
+      },
+      "package": {
+        "name": "undici",
+        "version": "6.26.0",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "6.28.0",
+        "upgrade": "npm install undici@6.28.0"
+      },
+      "advice": "升级 undici 到 6.28.0 或更高版本：npm install undici@6.28.0。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "undici vulnerable to cookie attribute injection via unsanitized domain and unparsed setCookie fields",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-vxpw-j846-p89q-package-lock.json-undici@6.26.0",
+      "ruleId": "osv:GHSA-vxpw-j846-p89q",
+      "label": "undici@6.26.0 存在已知漏洞 CVE-2026-12151",
+      "severity": "high",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 2758,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "undici@6.26.0 · undici WebSocket client vulnerable to denial of service via fragment count bypass",
+      "entropy": 0,
+      "cwe": "CWE-400",
+      "possibleCves": [
+        "CVE-2026-12151"
+      ],
+      "fingerprint": "20a589ed",
+      "advisory": {
+        "id": "GHSA-vxpw-j846-p89q",
+        "aliases": [
+          "CVE-2026-12151"
+        ],
+        "summary": "undici WebSocket client vulnerable to denial of service via fragment count bypass",
+        "url": "https://osv.dev/vulnerability/GHSA-vxpw-j846-p89q",
+        "cvss": 7.5,
+        "published": "2026-06-19T14:22:01Z"
+      },
+      "package": {
+        "name": "undici",
+        "version": "6.26.0",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "6.27.0",
+        "upgrade": "npm install undici@6.27.0"
+      },
+      "advice": "升级 undici 到 6.27.0 或更高版本：npm install undici@6.27.0。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "undici WebSocket client vulnerable to denial of service via fragment count bypass",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-fx2h-pf6j-xcff-package-lock.json-vite@7.3.3",
+      "ruleId": "osv:GHSA-fx2h-pf6j-xcff",
+      "label": "vite@7.3.3 存在已知漏洞 CVE-2026-53571",
+      "severity": "high",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 2815,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "vite@7.3.3 · vite: `server.fs.deny` bypass on Windows alternate paths",
+      "entropy": 0,
+      "cwe": "CWE-200",
+      "possibleCves": [
+        "CVE-2026-53571"
+      ],
+      "fingerprint": "d23e4765",
+      "advisory": {
+        "id": "GHSA-fx2h-pf6j-xcff",
+        "aliases": [
+          "CVE-2026-53571"
+        ],
+        "summary": "vite: `server.fs.deny` bypass on Windows alternate paths",
+        "url": "https://osv.dev/vulnerability/GHSA-fx2h-pf6j-xcff",
+        "cvss": 7.5,
+        "published": "2026-06-15T17:17:45Z"
+      },
+      "package": {
+        "name": "vite",
+        "version": "7.3.3",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "7.3.5",
+        "upgrade": "npm install vite@7.3.5"
+      },
+      "advice": "升级 vite 到 7.3.5 或更高版本：npm install vite@7.3.5。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "vite: `server.fs.deny` bypass on Windows alternate paths",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "osv-GHSA-v6wh-96g9-6wx3-package-lock.json-vite@7.3.3",
+      "ruleId": "osv:GHSA-v6wh-96g9-6wx3",
+      "label": "vite@7.3.3 存在已知漏洞 CVE-2026-53632",
+      "severity": "medium",
+      "stage": "dependency-osv",
+      "file": "package-lock.json",
+      "line": 2815,
+      "source": "current",
+      "provider": "OSV.dev",
+      "category": "dependency-cve",
+      "evidenceLevel": "osv_advisory",
+      "sourceRuleSet": "osv",
+      "actionable": true,
+      "masked": "[dependency]",
+      "context": "vite@7.3.3 · launch-editor: NTLMv2 hash disclosure via UNC path handling on Windows",
+      "entropy": 0,
+      "cwe": "CWE-522",
+      "possibleCves": [
+        "CVE-2026-53632"
+      ],
+      "fingerprint": "758a110",
+      "advisory": {
+        "id": "GHSA-v6wh-96g9-6wx3",
+        "aliases": [
+          "CVE-2026-53632"
+        ],
+        "summary": "launch-editor: NTLMv2 hash disclosure via UNC path handling on Windows",
+        "url": "https://osv.dev/vulnerability/GHSA-v6wh-96g9-6wx3",
+        "published": "2026-06-15T17:18:31Z"
+      },
+      "package": {
+        "name": "vite",
+        "version": "7.3.3",
+        "ecosystem": "npm",
+        "dev": false,
+        "fixedVersion": "7.3.5",
+        "upgrade": "npm install vite@7.3.5"
+      },
+      "advice": "升级 vite 到 7.3.5 或更高版本：npm install vite@7.3.5。",
+      "exploitability": {
+        "summary": "依赖组件存在已公开披露的漏洞；能否被利用取决于项目是否调用了受影响的功能。",
+        "confidence": "high",
+        "modes": [
+          {
+            "title": "已知漏洞利用",
+            "impact": "launch-editor: NTLMv2 hash disclosure via UNC path handling on Windows",
+            "prerequisites": "受影响版本被打包进生产环境，且存在可达的调用路径。"
+          }
+        ],
+        "safeTests": [],
+        "limitation": "结论来自 OSV.dev 公告与锁文件中的精确版本，未做调用可达性分析。"
+      },
+      "verification": {
+        "status": "not_checked",
+        "reason": "Disabled by default to avoid validating third-party tokens."
+      },
+      "repository": "lzwhehe/repo-vuln-scanner"
+    }
+  ],
+  "suppressed": [
+    {
+      "id": "coff0xc-aws-secret-package-lock.json-2282-92518ba3",
+      "ruleId": "coff0xc-aws-secret",
+      "label": "AWS secret access key",
+      "severity": "critical",
+      "category": "cloud",
+      "file": "package-lock.json",
+      "line": 2282,
+      "masked": "/w/t...TAtg",
+      "suppressedBy": "lockfile",
+      "reason": "依赖锁文件中的包哈希或元数据",
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "private-key-server\\rules\\providerRules.js-163-751c050e",
+      "ruleId": "private-key",
+      "label": "Private key block",
+      "severity": "critical",
+      "category": "private-key",
+      "file": "server\\rules\\providerRules.js",
+      "line": 163,
+      "masked": "----...----",
+      "suppressedBy": "rule-definition",
+      "reason": "检测规则或正则定义本身，不是真实凭证",
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "coff0xc-pgp-private-key-server\\rules\\providerRules.js-164-ed18c9ce",
+      "ruleId": "coff0xc-pgp-private-key",
+      "label": "PGP private key",
+      "severity": "critical",
+      "category": "private-key",
+      "file": "server\\rules\\providerRules.js",
+      "line": 164,
+      "masked": "----...----",
+      "suppressedBy": "rule-definition",
+      "reason": "检测规则或正则定义本身，不是真实凭证",
+      "repository": "lzwhehe/repo-vuln-scanner"
+    },
+    {
+      "id": "private-key-server\\scanner.js-160-2c332488",
+      "ruleId": "private-key",
+      "label": "Private key block",
+      "severity": "critical",
+      "category": "private-key",
+      "file": "server\\scanner.js",
+      "line": 160,
+      "masked": "----...----",
+      "suppressedBy": "rule-definition",
+      "reason": "检测规则或正则定义本身，不是真实凭证",
+      "repository": "lzwhehe/repo-vuln-scanner"
+    }
+  ],
+  "suppressionStats": {
+    "lockfile": 1,
+    "rule-definition": 3
+  }
+}

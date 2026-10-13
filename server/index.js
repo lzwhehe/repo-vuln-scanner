@@ -1,3 +1,4 @@
+import path from "node:path";
 import express from "express";
 import { analyzeHighRiskFiles, testAiProviderAvailability } from "./aiAnalysis.js";
 import { scanTarget } from "./scanner.js";
@@ -5,6 +6,9 @@ import { clearVault, getVault, persistScanResult } from "./vault.js";
 
 const app = express();
 const port = Number(process.env.PORT || 8787);
+const host = process.env.HOST || "127.0.0.1";
+// 公网演示模式：只允许 GitHub API 扫描（禁止扫描服务器本地路径）、不做密钥有效性验证、禁止清空风险库
+const publicDemo = process.env.PUBLIC_DEMO === "1";
 
 app.use((request, response, next) => {
   response.setHeader("Access-Control-Allow-Origin", process.env.APP_ORIGIN || "http://localhost:5173");
@@ -34,6 +38,10 @@ app.get("/api/vault", async (_request, response) => {
 });
 
 app.delete("/api/vault", async (_request, response) => {
+  if (publicDemo) {
+    response.status(403).json({ error: "演示环境已禁用清空操作" });
+    return;
+  }
   try {
     response.json(await clearVault());
   } catch (error) {
@@ -57,13 +65,13 @@ app.post("/api/scan", async (request, response) => {
     } =
       request.body || {};
     const result = await scanTarget(target, {
-      githubApiMode: Boolean(githubApiMode),
-      scanHistory: Boolean(scanHistory),
+      githubApiMode: publicDemo || Boolean(githubApiMode),
+      scanHistory: !publicDemo && Boolean(scanHistory),
       maxHistoryCommits,
       maxRepositories,
       maxFilesPerRepo,
       scanTheme,
-      enableValidityCheck: Boolean(enableValidityCheck)
+      enableValidityCheck: !publicDemo && Boolean(enableValidityCheck)
     });
     const persistence =
       result.findings?.length || result.riskProjects?.length
@@ -101,6 +109,15 @@ app.post("/api/analyze", async (request, response) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`漏洞扫描器 API listening on http://localhost:${port}`);
+// 容器部署：同时托管前端构建产物，网关按 /scanner/ 前缀转发过来
+const staticDir = process.env.STATIC_DIR;
+if (staticDir) {
+  app.use(express.static(staticDir));
+  app.get(/^\/(?!api\/).*/, (_request, response) => {
+    response.sendFile(path.join(staticDir, "index.html"));
+  });
+}
+
+app.listen(port, host, () => {
+  console.log(`漏洞扫描器 API listening on http://${host}:${port}`);
 });

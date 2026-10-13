@@ -7,6 +7,8 @@ import {
   Clock3,
   Code2,
   Copy,
+  Download,
+  EyeOff,
   FileSearch,
   FolderSearch,
   Github,
@@ -14,18 +16,20 @@ import {
   KeyRound,
   Loader2,
   LocateFixed,
+  Package,
   RefreshCw,
   ShieldCheck,
   SlidersHorizontal,
   Terminal
 } from "lucide-react";
 import "./styles.css";
+import { toCsv, toSarif } from "../server/report.js";
 
 const isLocalBrowser =
   typeof window === "undefined" ||
   window.location.hostname === "localhost" ||
   window.location.hostname === "127.0.0.1";
-const HOSTED_MODE = !isLocalBrowser && !import.meta.env.VITE_API_BASE;
+const HOSTED_MODE = !isLocalBrowser; // 公网部署：配置了 API 前缀也按托管模式运行（禁用本地路径扫描）
 const API_BASE = import.meta.env.VITE_API_BASE || (HOSTED_MODE ? "" : "http://localhost:8787");
 const RISK_VAULT_KEY = "vulnerability-scanner-risk-projects";
 const LEGACY_RISK_VAULT_KEY = "token-guardian-risk-projects";
@@ -59,19 +63,21 @@ const confidenceLabels = {
 
 function App() {
   const [activePage, setActivePage] = useState("scan");
-  const [targetType, setTargetType] = useState(HOSTED_MODE ? "explore" : "local");
+  const [targetType, setTargetType] = useState(HOSTED_MODE ? "github" : "local");
   const [target, setTarget] = useState(
-    HOSTED_MODE ? "github:explore" : "/Users/a0000/vibe_coding"
+    HOSTED_MODE ? "lzwhehe" : "/Users/a0000/vibe_coding"
   );
   const [scanHistory, setScanHistory] = useState(false);
   const [maxHistoryCommits, setMaxHistoryCommits] = useState(200);
   const [maxRepositories, setMaxRepositories] = useState(60);
   const [result, setResult] = useState(null);
+  const [isDemo, setIsDemo] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
   const [severityFilter, setSeverityFilter] = useState("all");
   const [sourceFilter, setSourceFilter] = useState("all");
+  const [hideTests, setHideTests] = useState(false);
   const [riskVault, setRiskVault] = useState(() => actionableRiskProjects(loadRiskVault()));
   const [vaultData, setVaultData] = useState(() => createEmptyClientVault(actionableRiskProjects(loadRiskVault())));
   const [vaultStatus, setVaultStatus] = useState({
@@ -95,10 +101,27 @@ function App() {
       const matchesQuery = !query || text.includes(query.toLowerCase());
       const matchesSeverity = severityFilter === "all" || finding.severity === severityFilter;
       const matchesSource = sourceFilter === "all" || finding.source === sourceFilter;
-      return matchesQuery && matchesSeverity && matchesSource;
+      const matchesTests = !hideTests || !finding.inTestFile;
+      return matchesQuery && matchesSeverity && matchesSource && matchesTests;
     });
-  }, [findings, query, severityFilter, sourceFilter]);
+  }, [findings, query, severityFilter, sourceFilter, hideTests]);
   const highRiskFiles = useMemo(() => buildHighRiskFiles(vaultData), [vaultData]);
+
+  useEffect(() => {
+    // 演示用：首次打开时载入一组预先跑好的示例扫描结果，方便直接查看
+    let active = true;
+    fetch(`${import.meta.env.BASE_URL}demo-result.json`)
+      .then((response) => (response.ok ? response.json() : null))
+      .then((payload) => {
+        if (!active || !payload) return;
+        setResult((current) => current || payload);
+        setIsDemo(true);
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, []);
 
   useEffect(() => {
     let active = true;
@@ -134,6 +157,7 @@ function App() {
     setLoading(true);
     setError("");
     setResult(null);
+    setIsDemo(false);
 
     try {
       const response = await fetch(`${API_BASE}/api/scan`, {
@@ -434,6 +458,11 @@ function App() {
               {loading ? "Scanning" : analysisLoading ? "Analyzing" : apiTestLoading ? "Testing API" : "Ready"}
             </div>
           </header>
+          {isDemo && activePage !== "risk-files" && result ? (
+            <div className="demo-note">
+              📌 示例结果：扫描本项目自身的 GitHub 仓库 <b>lzwhehe/repo-vuln-scanner</b> 得到。依赖漏洞来自锁文件中的旧版本组件，经 OSV.dev 查询并给出升级版本（部署版本已按建议升级）；密钥类命中来自单元测试中的伪造样本，已自动标注并降级；规则定义造成的误报已自动排除。可在左侧输入 GitHub 用户或仓库重新扫描。
+            </div>
+          ) : null}
 
           {error && (
             <div className="notice error">
@@ -477,10 +506,12 @@ function App() {
           {activePage === "scan" && result && (
             <>
               <SummaryGrid result={result} />
+              <ReportToolbar result={result} />
               <PipelineStrip pipeline={result.pipeline || []} />
               <AggregationPanel aggregations={result.aggregations} />
               <RiskProjectVault projects={riskVault} status={vaultStatus} onClear={clearRiskVault} />
               <ScannedRepositories repositories={result.repositories || []} />
+              <SuppressedPanel items={result.suppressed || []} stats={result.suppressionStats || {}} />
               <div className="filters">
                 <div className="search-box">
                   <SlidersHorizontal size={16} />
@@ -504,6 +535,10 @@ function App() {
                   <option value="current">当前文件</option>
                   <option value="history">Git 历史</option>
                 </select>
+                <label className="toggle">
+                  <input type="checkbox" checked={hideTests} onChange={(event) => setHideTests(event.target.checked)} />
+                  隐藏测试文件
+                </label>
               </div>
               <FindingsTable findings={filteredFindings} />
             </>
@@ -952,6 +987,123 @@ function SummaryGrid({ result }) {
   );
 }
 
+function download(filename, content, type) {
+  const blob = new Blob([content], { type });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
+function ReportToolbar({ result }) {
+  const dep = result.summary?.dependencyScan;
+  const stamp = new Date(result.scannedAt || Date.now()).toISOString().slice(0, 10);
+  return (
+    <section className="report-toolbar">
+      <div className="dep-status">
+        <Package size={16} />
+        {dep ? (
+          <span>
+            依赖检测：{dep.source} · 锁文件 {dep.lockfiles} · 依赖包 {dep.packages} · 有漏洞的包{" "}
+            <b>{dep.vulnerablePackages}</b>
+            {dep.error ? `（${dep.error}）` : ""}
+          </span>
+        ) : (
+          <span>依赖检测：本次未发现可解析的锁文件</span>
+        )}
+      </div>
+      <div className="export-buttons">
+        <span>导出</span>
+        <button type="button" onClick={() => download(`scan-${stamp}.json`, JSON.stringify(result, null, 2), "application/json")}>
+          <Download size={14} /> JSON
+        </button>
+        <button
+          type="button"
+          title="SARIF 2.1.0，可上传到 GitHub 代码扫描"
+          onClick={() => download(`scan-${stamp}.sarif`, JSON.stringify(toSarif(result), null, 2), "application/sarif+json")}
+        >
+          <Download size={14} /> SARIF
+        </button>
+        <button type="button" onClick={() => download(`scan-${stamp}.csv`, toCsv(result), "text/csv;charset=utf-8")}>
+          <Download size={14} /> CSV
+        </button>
+      </div>
+    </section>
+  );
+}
+
+function SuppressedPanel({ items, stats }) {
+  if (!items.length) return null;
+  const reasons = {
+    "inline-allow": "行内声明忽略",
+    lockfile: "锁文件哈希",
+    "vendor-build": "依赖 / 构建目录",
+    "rule-definition": "规则定义本身"
+  };
+  return (
+    <details className="suppressed-panel">
+      <summary>
+        <EyeOff size={15} /> 已自动排除 {items.length} 条噪声（
+        {Object.entries(stats)
+          .map(([key, count]) => `${reasons[key] || key} ${count}`)
+          .join(" · ")}
+        ），点击查看
+      </summary>
+      <ul>
+        {items.map((item) => (
+          <li key={item.id}>
+            <span className={`pill ${item.severity}`}>{severityLabels[item.severity]}</span>
+            <strong>{item.label}</strong>
+            <span className="muted">
+              {item.file}
+              {item.line ? `:${item.line}` : ""}
+            </span>
+            <span className="reason">{item.reason}</span>
+          </li>
+        ))}
+      </ul>
+    </details>
+  );
+}
+
+function DependencyFix({ finding }) {
+  const pkg = finding.package;
+  return (
+    <div className="dep-fix">
+      <div>
+        <code>
+          {pkg.name}@{pkg.version}
+        </code>
+        {pkg.fixedVersion ? (
+          <>
+            {" "}
+            → 升级到 <code className="fixed">{pkg.fixedVersion}</code>
+          </>
+        ) : (
+          " → 暂无官方修复版本"
+        )}
+        {pkg.dev && <span className="muted">（开发依赖）</span>}
+      </div>
+      {pkg.upgrade && (
+        <div className="dep-cmd">
+          <code>{pkg.upgrade}</code>
+          <button type="button" title="复制升级命令" onClick={() => navigator.clipboard?.writeText(pkg.upgrade)}>
+            <Copy size={13} />
+          </button>
+        </div>
+      )}
+      {finding.advisory?.url && (
+        <a href={finding.advisory.url} target="_blank" rel="noreferrer">
+          查看公告 {finding.advisory.id}
+          {finding.advisory.cvss ? ` · CVSS ${finding.advisory.cvss}` : ""}
+        </a>
+      )}
+    </div>
+  );
+}
+
 function FindingsTable({ findings }) {
   if (findings.length === 0) {
     return (
@@ -994,7 +1146,12 @@ function FindingsTable({ findings }) {
               ))}
               {finding.evidenceLevel && <span>{formatEvidenceLevel(finding.evidenceLevel)}</span>}
             </div>
-            <span>{finding.advice}</span>
+            {finding.inTestFile && (
+              <span className="test-tag">
+                测试文件 · 已从{severityLabels[finding.originalSeverity] || finding.originalSeverity}降级
+              </span>
+            )}
+            {finding.package ? <DependencyFix finding={finding} /> : <span>{finding.advice}</span>}
             <ExploitabilityPanel assessment={finding.exploitability} />
           </div>
           <div className="snippet-cell">

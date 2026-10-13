@@ -1,0 +1,12 @@
+node_modules
+dist
+.vercel
+.git
+.env*
+.scanner-data
+.scanner-tmp
+coverage
+api
+vercel.json
+Dockerfile
+.dockerignore

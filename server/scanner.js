@@ -7,6 +7,8 @@ import * as tar from "tar";
 import { coff0xcSupplementalRules } from "./rules/providerRules.js";
 import { coff0xcSearchQueries } from "./rules/searchKeywords.js";
 import { vulnerabilityRules } from "./rules/vulnerabilityRules.js";
+import { applyNoiseFilters } from "./noise.js";
+import { isSupportedLockfile, scanDependencies } from "./osv.js";
 
 const execFileAsync = promisify(execFile);
 
@@ -397,10 +399,12 @@ export async function scanTarget(target, options = {}) {
 
   const targetInfo = await prepareTarget(target, options);
   const findings = [];
+  let dependency;
 
   try {
-    const fileFindings = await scanCurrentFiles(targetInfo.path);
-    findings.push(...fileFindings);
+    const scanned = await scanDirectory(targetInfo.path);
+    findings.push(...scanned.findings);
+    dependency = scanned.dependency;
 
     if (options.scanHistory) {
       const historyFindings = await scanGitHistory(
@@ -419,18 +423,27 @@ export async function scanTarget(target, options = {}) {
     target: targetInfo.display,
     mode: targetInfo.mode,
     durationMs: Date.now() - startedAt,
-    findings
+    findings,
+    summaryExtras: { dependencyScan: dependencySummary([dependency]) }
   });
 }
 
 export async function scanCurrentFiles(rootDir) {
+  return (await scanDirectory(rootDir)).findings;
+}
+
+async function scanDirectory(rootDir) {
   const files = await collectFiles(rootDir);
   const findings = [];
+  const manifests = [];
 
   for (const absoluteFile of files) {
     const relativeFile = path.relative(rootDir, absoluteFile);
     const text = await readTextFile(absoluteFile);
     if (text === null) continue;
+    if (isSupportedLockfile(relativeFile)) {
+      manifests.push({ path: relativeFile, file: relativeFile, text, source: "current" });
+    }
 
     const lines = text.split(/\r?\n/);
     lines.forEach((line, index) => {
@@ -445,7 +458,31 @@ export async function scanCurrentFiles(rootDir) {
     });
   }
 
-  return findings;
+  const dependency = await scanDependencies(manifests);
+  return { findings: mergeDependencyFindings(findings, dependency), dependency };
+}
+
+// OSV 查询成功时用它的结果替换内置的静态依赖规则；失败时保留静态规则结果作为兜底
+function mergeDependencyFindings(findings, dependency) {
+  if (!dependency?.ok || !dependency.files.length) return findings;
+  return [
+    ...findings.filter((finding) => !(finding.category === "dependency-cve" && finding.sourceRuleSet !== "osv")),
+    ...dependency.findings
+  ];
+}
+
+function dependencySummary(statuses) {
+  const list = statuses.filter(Boolean);
+  if (!list.length) return undefined;
+  const errors = list.filter((s) => !s.ok).map((s) => s.error);
+  return {
+    source: errors.length && errors.length === list.length ? "静态规则（OSV 不可用）" : "OSV.dev",
+    ok: errors.length === 0,
+    lockfiles: list.reduce((n, s) => n + s.files.length, 0),
+    packages: list.reduce((n, s) => n + s.packages, 0),
+    vulnerablePackages: list.reduce((n, s) => n + s.vulnerable, 0),
+    error: errors[0]
+  };
 }
 
 export async function scanGitHistory(repoPath, maxCommits = 200) {
@@ -648,6 +685,7 @@ export async function scanGitHubRiskTarget(target, options = {}) {
 
   const findings = [];
   const repoResults = [];
+  const dependencyStatuses = [];
 
   for (const repository of repositories.slice(0, maxRepositories)) {
     if (repository.archived || repository.disabled || !repository.default_branch) {
@@ -670,6 +708,7 @@ export async function scanGitHubRiskTarget(target, options = {}) {
     try {
       const repoResult = await scanGitHubRepository(repository, headers, maxFilesPerRepo);
       findings.push(...repoResult.findings);
+      dependencyStatuses.push(repoResult.dependency);
       repoResults.push({
         name: repository.full_name,
         url: repository.html_url,
@@ -728,7 +767,8 @@ export async function scanGitHubRiskTarget(target, options = {}) {
       scannedFiles: summary.scannedFiles,
       riskFiles: summary.riskFiles,
       skippedRepositories: summary.skippedRepositories,
-      scanTheme: parsed.type === "explore" ? scanTheme : undefined
+      scanTheme: parsed.type === "explore" ? scanTheme : undefined,
+      dependencyScan: dependencySummary(dependencyStatuses)
     }
   });
 }
@@ -859,6 +899,7 @@ async function scanGitHubRepository(repository, headers, maxFilesPerRepo) {
     .slice(0, maxFilesPerRepo);
 
   const findings = [];
+  const manifests = [];
   let scannedFiles = 0;
   let riskFiles = 0;
 
@@ -886,6 +927,16 @@ async function scanGitHubRepository(repository, headers, maxFilesPerRepo) {
     if (text === null) continue;
 
     scannedFiles += 1;
+    if (isSupportedLockfile(candidate.path)) {
+      manifests.push({
+        path: candidate.path,
+        file: `${repositoryName}/${candidate.path}`,
+        text,
+        source: "github",
+        repository: repositoryName,
+        fileUrl: (line) => githubFileUrl(owner, repo, branch, candidate.path, line)
+      });
+    }
     text.split(/\r?\n/).forEach((line, index) => {
       findings.push(
         ...scanLine({
@@ -900,7 +951,8 @@ async function scanGitHubRepository(repository, headers, maxFilesPerRepo) {
     });
   }
 
-  return { findings, scannedFiles, riskFiles };
+  const dependency = await scanDependencies(manifests);
+  return { findings: mergeDependencyFindings(findings, dependency), scannedFiles, riskFiles, dependency };
 }
 
 async function fetchGitHubRepo(owner, repo, headers) {
@@ -1407,6 +1459,7 @@ function buildFinding({ rule, secret, line, file, lineNumber, source, commit, re
     actionable: rule.actionable !== false,
     masked: maskSecret(secret),
     context: redactLine(line, secret),
+    fingerprint: fingerprint(`${rule.id}|${file}|${secret}`),
     entropy: Number(shannonEntropy(secret).toFixed(2)),
     advice: rule.advice
   };
@@ -1436,6 +1489,7 @@ function buildVulnerabilityFinding({ rule, line, file, lineNumber, source, commi
     actionable: rule.actionable !== false,
     masked: "[static-risk]",
     context: String(line || "").trim().slice(0, 260),
+    fingerprint: fingerprint(`${rule.id}|${file}|${String(line || "").trim()}`),
     entropy: 0,
     cwe: rule.cwe,
     possibleCves: rule.possibleCves || [],
@@ -1965,6 +2019,12 @@ function shouldReportSecret(secret) {
   if (/example|sample|placeholder|changeme|your[_-]?(token|key|secret)|insert|replace|sandbox|dummy|fake/i.test(secret)) return false;
   if (/^(x+|0+|1+|a+|test|demo|dummy)$/i.test(secret)) return false;
   if (/^(abcdef|123456|xxxxxx)+$/i.test(secret)) return false;
+  // 模板变量 / 占位符：${VAR}、{{ var }}、%VAR%、<your-key>
+  if (/^\$\{[^}]+\}$|^\{\{[^}]+\}\}$|^%[A-Za-z0-9_]+%$|^<[^>]+>$/.test(secret)) return false;
+  // 间接引用：值来自环境变量或函数调用，而不是写死的凭证
+  if (/^(process\.env|os\.environ|getenv|env\(|import\.meta\.env)/i.test(secret)) return false;
+  // 同一字符重复
+  if (/^(.)\1{7,}$/.test(secret)) return false;
   return true;
 }
 
@@ -1977,6 +2037,8 @@ function shouldReportGeneric(secret) {
   if (/^[a-z0-9.-]+\.(com|org|net|local)$/i.test(secret)) return false;
   if (/^#[0-9a-f]{6}$/i.test(secret)) return false;
   if (/^\d+(\.\d+){1,3}$/.test(secret)) return false;
+  // UUID 通常是资源 ID 而不是凭证
+  if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(secret)) return false;
   return shannonEntropy(secret) >= 3.8;
 }
 
@@ -2028,10 +2090,13 @@ function finalizeScanResult({
   summaryExtras = {},
   validityEnabled = false
 }) {
-  const uniqueFindings = annotateValidity(dedupeFindings(findings), { enabled: validityEnabled });
+  const { kept, suppressed, stats } = applyNoiseFilters(dedupeFindings(findings));
+  const uniqueFindings = annotateValidity(kept, { enabled: validityEnabled });
   const summary = {
     ...summarize(uniqueFindings),
-    ...summaryExtras
+    ...summaryExtras,
+    suppressed: suppressed.length,
+    inTestFiles: uniqueFindings.filter((finding) => finding.inTestFile).length
   };
   const aggregations = aggregateFindings(uniqueFindings);
   const riskProjects = collectRiskProjects(uniqueFindings, repositories);
@@ -2046,7 +2111,9 @@ function finalizeScanResult({
     aggregations,
     riskProjects,
     repositories,
-    findings: uniqueFindings
+    findings: uniqueFindings,
+    suppressed,
+    suppressionStats: stats
   };
 }
 
