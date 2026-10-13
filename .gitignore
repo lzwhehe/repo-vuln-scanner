@@ -1,0 +1,9 @@
+node_modules
+dist
+.env
+.DS_Store
+coverage
+.scanner-tmp
+.scanner-data
+.vercel
+.env*.local
