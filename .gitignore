@@ -7,3 +7,4 @@ coverage
 .scanner-data
 .vercel
 .env*.local
+.npmrc
